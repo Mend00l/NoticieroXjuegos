@@ -1,0 +1,90 @@
+"""La criba y el parecido, que corren sin base de datos."""
+import criba
+import publicar
+
+
+def test_tira_las_guias_por_la_ruta():
+    assert criba.motivo_descarte(
+        "65 Switch Games You Should Check Out",
+        "https://www.nintendolife.com/guides/65-switch-games",
+    )
+
+
+def test_tira_los_analisis_por_el_titular():
+    assert criba.motivo_descarte(
+        "Análisis de Nintendo Switch Sports Resort",
+        "https://www.eurogamer.es/analisis-switch-sports",
+    )
+
+
+def test_tira_los_codigos_diarios():
+    assert criba.motivo_descarte(
+        "FREE FIRE MAX | Códigos de hoy jueves 22 de octubre de 2026",
+        "https://vandal.elespanol.com/noticia/free-fire",
+    )
+
+
+def test_deja_pasar_una_noticia():
+    assert criba.motivo_descarte(
+        "EA cierra Bioware y cancela el próximo Mass Effect",
+        "https://vandal.elespanol.com/noticia/ea-cierra-bioware",
+    ) is None
+
+
+def test_caza_la_misma_noticia_en_dos_idiomas():
+    """Lo que mas repetido sale: el mismo cierre contado en español y en ingles."""
+    una = criba.palabras_clave("EA cierra Bioware, cancela el próximo Mass Effect y despide a 400 personas")
+    otra = criba.palabras_clave("EA is closing BioWare and cancelling the next Mass Effect")
+    assert criba.parecido(una, otra) >= 0.5
+
+
+def test_no_junta_dos_noticias_del_mismo_juego():
+    """Mismo juego, noticias distintas: una de requisitos y otra de fecha."""
+    una = criba.palabras_clave("Shrek 2 Remastered pide una RTX 5070 y desata las críticas")
+    otra = criba.palabras_clave("Shrek 2 Remastered Gets Official November Release Date")
+    assert criba.parecido(una, otra) < 0.5
+
+
+def test_no_junta_por_la_coletilla_del_medio():
+    """Nintendo Life acaba muchos titulares en "Here Are The Full Patch Notes"."""
+    una = criba.palabras_clave("Cyberpunk 2077: Edgerunners 2 Update (2.5) Officially Revealed, Here Are The Full Patch Notes")
+    otra = criba.palabras_clave("Nintendo Switch Sports Resort Has Been Updated To Ver. 1.1.0, Here Are The Full Patch Notes")
+    assert criba.parecido(una, otra) < 0.5
+
+
+def test_no_junta_por_la_paja_del_lanzamiento():
+    una = criba.palabras_clave("Pratfall coming to PS5, Xbox Series, and Switch 2")
+    otra = criba.palabras_clave("RV There Yet? coming to PS5, Switch 2 on October 29")
+    assert criba.parecido(una, otra) < 0.5
+
+
+def test_el_enlace_se_normaliza():
+    """El mismo articulo con y sin campaña es el mismo articulo."""
+    limpio = criba.clave_enlace("https://www.vandal.net/noticia/abc/")
+    assert limpio == criba.clave_enlace("http://vandal.net/noticia/abc?utm_source=rss#arriba")
+
+
+def test_el_mensaje_cabe_en_el_pie_de_foto():
+    larga = {
+        "titular": "Un titular normal de una noticia de videojuegos",
+        "resumen": "palabra " * 400,
+        "fuente": "Vandal",
+        "enlace": "https://vandal.elespanol.com/noticia/abc",
+    }
+    texto = publicar.montar(larga)
+    assert len(texto) <= publicar.TOPE_PIE
+    # Y lo que se recorta es el resumen, nunca el titular ni el enlace.
+    assert larga["titular"] in texto
+    assert larga["enlace"] in texto
+
+
+def test_el_mensaje_escapa_el_html():
+    """Un titular con < o & no puede romper el parse_mode HTML."""
+    texto = publicar.montar({
+        "titular": "Half-Life 3 & <b>Portal</b>: lo que se sabe",
+        "resumen": "",
+        "fuente": "Vandal",
+        "enlace": "https://vandal.elespanol.com/noticia/abc",
+    })
+    assert "<b>Portal</b>: lo que" not in texto
+    assert "&amp;" in texto

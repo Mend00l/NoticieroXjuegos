@@ -1,0 +1,16 @@
+# Mismas versiones que publicador y Miss_Avisos, que ya estan probadas
+# contra la API de Telegram de verdad.
+python-telegram-bot==21.6
+httpx==0.27.2
+python-dotenv==1.0.1
+asyncpg==0.30.0
+
+# El analisis de los feeds. Once medios y cada uno hace el RSS a su manera
+# (RSS 2.0, Atom, media:content, enclosures, fechas mentirosas); hacerlo a
+# mano con expresiones regulares aguanta hasta que uno cambia algo.
+feedparser==6.0.11
+
+# El reloj del sondeo.
+apscheduler==3.10.4
+# Las zonas horarias, que el contenedor de Railway corre en UTC.
+tzdata==2024.1
