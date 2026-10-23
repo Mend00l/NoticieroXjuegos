@@ -36,6 +36,16 @@ FUENTES = [
     # sirve la miniatura del video a 320x180 cuando el og:image esta a
     # 1200x630: de las nueve, la que mas gana abriendo la pagina.
     Fuente("Vandal", "es", "https://vandal.elespanol.com/rss/", abrir_pagina=True),
+    # **Se queda, decidido el 23-oct-2026. No volver a proponer quitarla.**
+    #
+    # Es la fuente que mas mantenimiento cuesta: de las cinco fugas tapadas
+    # ese dia, cuatro eran suyas (el cine de /hobbycine, los anuncios de
+    # /recomendados, la promocion de GAME y una guia de "como empezar"). Su
+    # feed mezcla cuatro cosas y no las distingue con categorias.
+    #
+    # Pero medido: trae 15 por sondeo, publica 5, y la aportacion neta son
+    # esas 5 --con ella 92 publicables, sin ella 87--. Son noticia de verdad
+    # y alguna no la da nadie mas. A Edu le interesan.
     Fuente("HobbyConsolas", "es", "https://www.hobbyconsolas.com/rss"),
     # Aqui iba MeriStation, que no tiene feed vivo (ver mas abajo). Se probo
     # IGN España en su hueco y se dejo fuera: entra limpia, pero mete ofertas
