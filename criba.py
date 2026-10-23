@@ -51,7 +51,13 @@ SUFIJOS_FUERA = (
 TITULOS_FUERA = (
     re.compile(r"^guia\b"),
     re.compile(r"\bguia (de|completa|para)\b"),
-    re.compile(r"\bcomo (conseguir|desbloquear|encontrar|derrotar|subir)\b"),
+    # Los verbos de guia. "como" a secas no vale: "Como Nintendo convirtio..."
+    # es un reportaje, no una guia. Se añadieron empezar, completar y los de
+    # abajo porque "Como empezar la mision de Edgerunners 2" se colo.
+    re.compile(
+        r"\bcomo (conseguir|desbloquear|encontrar|derrotar|subir|empezar|"
+        r"completar|resolver|superar|activar|obtener|acceder|descargar)\b"
+    ),
     re.compile(r"\btrucos\b"),
     re.compile(r"\b(todos los|todas las) (codigos|cofres|coleccionables|personajes)\b"),
     re.compile(r"\bcodigos (de|para|canjeables)\b"),
@@ -127,6 +133,14 @@ TIENDAS_FUERA = (
     re.compile(r"\ben oferta por menos de\b"),
     re.compile(r"\bofertas de hasta\b"),
     re.compile(r"\bmejores ofertas\b"),
+    re.compile(r"\bgrandes ofertas\b"),
+    # Jerga de chollo, que no sale en una noticia: chollo, chollazo,
+    # chollazos. El mismo post de GAME llego dos veces con dos redacciones
+    # distintas --"mas de 100 ofertas de hasta el 50 %" en Vandal y "precios
+    # de estreno y autenticos chollazos" en HobbyConsolas-- y la primera
+    # version solo cazaba la de Vandal.
+    re.compile(r"\bcholl"),
+    re.compile(r"\bprecios de estreno\b"),
     re.compile(r"^free play days\b"),
     re.compile(r"\bdeal of the (day|week)\b"),
     re.compile(r"\bbest deals\b"),

@@ -173,6 +173,39 @@ def test_tira_los_juegos_gratis_de_epic_y_prime():
     )
 
 
+def test_tira_el_mismo_anuncio_con_otra_redaccion():
+    """El post de GAME llego dos veces, redactado distinto en cada medio."""
+    assert criba.motivo_descarte(
+        "GAME estrena nueva web y lo celebra con más de 100 ofertas de hasta el 50 % de descuento",
+        "https://vandal.elespanol.com/noticia/2026296012/game-estrena-nueva-web/",
+        ["PC PS5 XSX Switch2"],
+    )
+    assert criba.motivo_descarte(
+        "GAME renueva su web y lo celebra con precios de estreno y auténticos chollazos, "
+        "por tiempo limitado",
+        "https://www.hobbyconsolas.com/videojuegos/game-renueva-su-web-celebra-con-precios-estreno_7052742_0.html",
+        ["Juegos"],
+    )
+
+
+def test_tira_las_guias_de_como_empezar():
+    """Se colo porque el patron solo tenia conseguir, desbloquear y tres mas."""
+    assert criba.motivo_descarte(
+        "Cómo empezar la misión de Cyberpunk Edgerunners 2 en Cyberpunk 2077",
+        "https://www.hobbyconsolas.com/videojuegos/como-empezar-mision-edgerunners_7052000_0.html",
+        ["Juegos"],
+    )
+
+
+def test_un_reportaje_que_empieza_por_como_sigue_pasando():
+    """"Como" a secas no vale: hace falta el verbo de guia detras."""
+    assert criba.motivo_descarte(
+        "Cómo Nintendo convirtió una consola fallida en la más vendida de su historia",
+        "https://www.hobbyconsolas.com/videojuegos/como-nintendo-convirtio-consola_7052001_0.html",
+        ["Juegos"],
+    ) is None
+
+
 def test_una_noticia_de_la_tienda_sigue_pasando():
     """Con el nombre de la tienda a secas se irian noticias de la tienda."""
     assert criba.motivo_descarte(
