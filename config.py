@@ -51,7 +51,12 @@ ADMINS = _los_que_mandan(os.getenv("ADMIN_ID"))
 DATABASE_URL = _texto("DATABASE_URL")
 # asyncpg usa "prefer" por su cuenta: cifra si el servidor quiere y se
 # conforma con texto plano si no, sin decir nada. "require" impide esa caida
-# silenciosa, que la conexion va por la direccion publica de Railway.
+# silenciosa.
+#
+# Vale "require" tanto por la direccion publica de Railway como por la
+# privada: comprobado el 23-oct-2026 preguntando a pg_stat_ssl, el TLS lo da
+# el propio Postgres (TLSv1.3) y no el proxy, asi que es el mismo servidor
+# por las dos. Con un Postgres local sin TLS es cuando toca "disable".
 DB_SSL = _texto("DB_SSL") or "require"
 
 # Cada cuanto se miran los feeds. Quince minutos es el equilibrio: ningun

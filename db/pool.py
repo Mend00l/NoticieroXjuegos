@@ -29,14 +29,18 @@ def pool() -> asyncpg.Pool:
 
 async def iniciar():
     global _pool
-    # Con un Postgres local no hay TLS que pedir, y "require" lo tumbaria.
-    ssl = None if DB_SSL in ("disable", "prefer") else DB_SSL
-    logger.info(f"Conectando a la base de datos con ssl={ssl}")
+    # DB_SSL va tal cual: asyncpg entiende "disable", "prefer" y "require".
+    #
+    # Aqui habia una traduccion a None para "disable" y "prefer", y **estaba
+    # mal**: asyncpg con ssl=None no desactiva nada, hace "prefer", asi que
+    # pedir "disable" daba una conexion cifrada igualmente. Comprobado el
+    # 23-oct-2026 contra el Postgres de Railway preguntandole a pg_stat_ssl.
+    logger.info(f"Conectando a la base de datos con ssl={DB_SSL}")
     _pool = await asyncpg.create_pool(
         DATABASE_URL,
         min_size=1,
         max_size=5,
-        ssl=ssl,
+        ssl=DB_SSL,
         max_inactive_connection_lifetime=INACTIVA_MAXIMA,
         command_timeout=ESPERA_MAXIMA,
     )
