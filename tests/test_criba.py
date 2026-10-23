@@ -147,6 +147,37 @@ def test_una_noticia_sin_categorias_pasa():
     ) is None
 
 
+def test_tira_las_promociones_de_tienda():
+    """Las dos que se publicaron en el tema el 23-oct-2026."""
+    assert criba.motivo_descarte(
+        "Fanatical Halloween bundle gives you Prey, Doom 1 & 2, and Evil Within 1 & 2 for $11.66",
+        "https://www.videogameschronicle.com/news/fanatical-halloween-bundle-gives-you-prey/",
+        ["News"],
+    )
+    assert criba.motivo_descarte(
+        "Consigue Call of Duty: Modern Warfare 4 y otras novedades al mejor precio "
+        "con las ofertas de Instant Gaming",
+        "https://vandal.elespanol.com/noticia/2026296016/consigue-call-of-duty-modern-warfare-4/",
+        ["PC"],
+    )
+
+
+def test_una_noticia_de_precios_no_es_promocion():
+    """Lo que distingue la promocion no es hablar de precios ni de gratis."""
+    noticias_buenas = [
+        ("Xbox's next-gen console to reportedly cost up to $1,800",
+         "https://www.eurogamer.net/microsoft-next-gen-xbox-helix-date-price"),
+        ("Football Manager 27 will be free to play for five days before its full release",
+         "https://www.eurogamer.net/football-manager-27-free-to-play-five-days"),
+        ("The Wolf Among Us Remastered tendrá un descuento temporal para los compradores",
+         "https://www.eurogamer.es/the-wolf-among-us-remastered-tendra-un-descuento-temporal"),
+        ("Xbox cloud gaming prices revealed, with 50 hours of ad-free game-time",
+         "https://www.eurogamer.net/xbox-cloud-gaming-prices-revealed"),
+    ]
+    for titular, enlace in noticias_buenas:
+        assert criba.motivo_descarte(titular, enlace) is None, titular
+
+
 def test_tira_el_podcast_de_eurogamer():
     assert criba.motivo_descarte(
         "Nitro 1x09: El cierre de BioWare, el supuesto precio y fecha de la próxima Xbox",

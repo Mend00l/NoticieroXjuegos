@@ -93,7 +93,44 @@ TITULOS_FUERA = (
 # entre las que haya Tecnologia es una noticia. Y **la lista vacia no vale
 # como señal**: "Electronic Arts despedira a 400 trabajadores" venia sin una
 # sola categoria y es la noticia del dia.
-CATEGORIAS_FUERA = {"tecnologia", "technology", "gadgets", "ofertas"}
+CATEGORIAS_FUERA = {"tecnologia", "technology", "gadgets", "ofertas", "deals"}
+
+# Promociones de tienda. VGC las publica como noticia y las etiqueta "News"
+# igual que todo lo demas, asi que aqui no hay categoria que mirar: hubo que
+# ir al titular. Ejemplo del 23-oct-2026: "Fanatical Halloween bundle gives
+# you Prey, Doom 1 & 2, and Evil Within 1 & 2 for $11.66".
+#
+# **Lo que las distingue no es que hablen de precios.** "Xbox's next-gen
+# console to reportedly cost up to $1,800" es la noticia del dia, y "The
+# Wolf Among Us Remastered tendra un descuento temporal" tambien. Lo que las
+# distingue es que **el protagonista es una tienda**, no un juego ni quien
+# lo hace. De ahi que esto sea una lista de tiendas y no de palabras como
+# "oferta" o "descuento", que se llevarian noticias de verdad.
+#
+# Las ofertas ya tienen sus bots: ofertasXbot y digitalesXjuegos.
+# **Ojo: estos patrones se comparan contra el titular normalizado**, y
+# normalizar() se come los simbolos. Un patron con % o $ no caza nunca:
+# "ofertas de hasta el 50 % de descuento" llega aqui como "50 de descuento".
+# Se perdio un rato con `\d+% de descuento`, que cazaba cero.
+#
+# Cada uno de estos esta comprobado contra los 240 titulares del 23-oct-2026:
+# caza su promocion y no toca ninguna noticia.
+TIENDAS_FUERA = (
+    re.compile(r"\bfanatical\b"),
+    re.compile(r"\bhumble (bundle|choice)\b"),
+    re.compile(r"\bgreen man gaming\b"),
+    re.compile(r"\bcdkeys\b"),
+    re.compile(r"\bgamivo\b"),
+    re.compile(r"\binstant gaming\b"),
+    re.compile(r"\bgamesplanet\b"),
+    re.compile(r"\bal mejor precio\b"),
+    re.compile(r"\ben oferta por menos de\b"),
+    re.compile(r"\bofertas de hasta\b"),
+    re.compile(r"\bmejores ofertas\b"),
+    re.compile(r"^free play days\b"),
+    re.compile(r"\bdeal of the (day|week)\b"),
+    re.compile(r"\bbest deals\b"),
+)
 
 # Palabras que no distinguen una noticia de otra. Sin quitarlas, dos
 # titulares con "el nuevo juego de" ya salen parecidos sin hablar de lo mismo.
@@ -234,5 +271,8 @@ def motivo_descarte(
     for patron in TITULOS_FUERA:
         if patron.search(plano):
             return f"titular {patron.pattern}"
+    for patron in TIENDAS_FUERA:
+        if patron.search(plano):
+            return f"promocion de tienda {patron.pattern}"
 
     return None
