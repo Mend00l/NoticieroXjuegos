@@ -40,7 +40,8 @@ async def main():
         pasan, por_criba, repetidas = [], [], []
         vistas = []
         for noticia in todas:
-            motivo = criba.motivo_descarte(noticia["titular"], noticia["enlace"])
+            motivo = criba.motivo_descarte(
+                noticia["titular"], noticia["enlace"], noticia.get("categorias"))
             claves = criba.palabras_clave(noticia["titular"])
             if not motivo:
                 for otra_fuente, otras, otro_titular in vistas:

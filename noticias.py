@@ -72,7 +72,9 @@ async def _claves_recientes(con) -> list[tuple[int, str, set[str]]]:
 
 async def _guardar(con, noticia: dict, recientes: list, estreno: bool) -> str:
     """Mete una noticia y dice que se hizo con ella."""
-    motivo = criba.motivo_descarte(noticia["titular"], noticia["enlace"])
+    motivo = criba.motivo_descarte(
+        noticia["titular"], noticia["enlace"], noticia.get("categorias")
+    )
     claves = criba.palabras_clave(noticia["titular"])
 
     if not motivo:

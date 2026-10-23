@@ -41,7 +41,7 @@ async def main():
             # Se pregunta a la criba de verdad, con la direccion entera. Antes
             # se comprobaba solo la seccion contra RUTAS_FUERA, y eso decia
             # que /features pasaba cuando en realidad se filtra.
-            motivo = criba.motivo_descarte(n["titular"], n["enlace"])
+            motivo = criba.motivo_descarte(n["titular"], n["enlace"], n.get("categorias"))
             if motivo:
                 tirados[seccion] += 1
             else:

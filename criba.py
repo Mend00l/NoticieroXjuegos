@@ -62,6 +62,10 @@ TITULOS_FUERA = (
     re.compile(r"\bresena de\b"),
     re.compile(r"^mini resena\b"),
     re.compile(r"^impresiones de\b"),
+    # El podcast de Eurogamer, que se numera "Nitro 1x09". Con su feed de
+    # solo noticias ya no deberia aparecer, pero el guardia es una linea.
+    re.compile(r"^nitro \d+x\d+\b"),
+    re.compile(r"^meripodcast\b"),
     re.compile(r"\bdonde (encontrar|esta|estan)\b"),
     re.compile(r"\b(los|las) \d+ mejores\b"),
     re.compile(r"^(guide|walkthrough)\b"),
@@ -74,6 +78,22 @@ TITULOS_FUERA = (
     re.compile(r"\b(review|preview|roundup)$"),
     re.compile(r"\bexplained\b"),
 )
+
+# Eurogamer ES cuela publicidad de producto **dentro de su feed de
+# noticias**: "WALL-E compacto basura durante 700 años y este Roomba te
+# libra de vaciar el polvo", "Tu Switch 2, un solo cable y una pared blanca
+# y ya estas jugando a 80 pulgadas con este proyector de bolsillo". Unas 7
+# de cada 40.
+#
+# Por titular no hay forma decente de cazarlas: hablan de videojuegos. Pero
+# **el RSS las etiqueta**: llevan Tecnologia como UNICA categoria, mientras
+# las noticias de verdad llevan categorias de juego (Nintendo, Shooter, PC).
+#
+# Se pide que sea la unica, no que este: una noticia con varias categorias
+# entre las que haya Tecnologia es una noticia. Y **la lista vacia no vale
+# como señal**: "Electronic Arts despedira a 400 trabajadores" venia sin una
+# sola categoria y es la noticia del dia.
+CATEGORIAS_FUERA = {"tecnologia", "technology", "gadgets", "ofertas"}
 
 # Palabras que no distinguen una noticia de otra. Sin quitarlas, dos
 # titulares con "el nuevo juego de" ya salen parecidos sin hablar de lo mismo.
@@ -193,8 +213,15 @@ def clave_enlace(enlace: str) -> str:
     return urlunsplit(("https", servidor, partes.path.rstrip("/"), urlencode(consulta), ""))
 
 
-def motivo_descarte(titular: str, enlace: str) -> str | None:
+def motivo_descarte(
+    titular: str, enlace: str, categorias: list[str] | None = None
+) -> str | None:
     """Por que no se publica esto. None si si se publica."""
+    if categorias:
+        suyas = {normalizar(c) for c in categorias if c}
+        if suyas and suyas <= CATEGORIAS_FUERA:
+            return f"categoria {sorted(suyas)[0]}"
+
     ruta = urlsplit(enlace).path.lower().rstrip("/")
     for trozo in RUTAS_FUERA:
         if trozo in ruta:

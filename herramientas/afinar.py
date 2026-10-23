@@ -33,7 +33,8 @@ async def bajar():
     for resultado in resultados:
         if not isinstance(resultado, Exception):
             todas.extend({"fuente": n["fuente"], "titular": n["titular"],
-                          "enlace": n["enlace"]} for n in resultado)
+                          "enlace": n["enlace"],
+                          "categorias": n.get("categorias")} for n in resultado)
     return todas
 
 
@@ -64,7 +65,10 @@ def main():
         print(f"{len(todas)} titulares bajados y guardados en {CACHE}")
 
     # Solo los que pasarian la criba: los demas no llegan a compararse.
-    utiles = [n for n in todas if not criba.motivo_descarte(n["titular"], n["enlace"])]
+    utiles = [
+        n for n in todas
+        if not criba.motivo_descarte(n["titular"], n["enlace"], n.get("categorias"))
+    ]
     claves = {i: criba.palabras_clave(n["titular"]) for i, n in enumerate(utiles)}
     print(f"{len(utiles)} pasan la criba\n")
 

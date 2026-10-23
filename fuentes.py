@@ -42,9 +42,13 @@ FUENTES = [
     # ("por menos de 30 euros puedes hacerte con...") y series de television,
     # y subio las repetidas de 15 a 23, o sea que casi todo lo suyo ya lo
     # contaba otro. Para volver a meterla basta una linea aqui.
-    Fuente("Eurogamer ES", "es", "https://www.eurogamer.es/feed"),
+    # El feed de SOLO NOTICIAS, no el general. Lo declara su propio HTML en
+    # /archive/news y no estaba a la vista. El general trae ademas los
+    # analisis, los avances y **el podcast Nitro**, que se publico en el
+    # tema el 23-oct-2026. Con este, la criba no tiene que tirar nada suyo.
+    Fuente("Eurogamer ES", "es", "https://www.eurogamer.es/feed/news"),
     Fuente("VGC", "en", "https://www.videogameschronicle.com/feed/"),
-    Fuente("Eurogamer", "en", "https://www.eurogamer.net/feed"),
+    Fuente("Eurogamer", "en", "https://www.eurogamer.net/feed/news"),
     Fuente("Gematsu", "en", "https://www.gematsu.com/feed"),
     Fuente("Nintendo Life", "en", "https://www.nintendolife.com/feeds/latest"),
     # Entra sabiendo lo que cuesta, medido el 23-oct-2026: de sus 9

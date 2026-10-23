@@ -64,7 +64,10 @@ def buscar(titulares, trozo):
 
 def main():
     todas = json.loads(CACHE.read_text(encoding="utf-8"))
-    utiles = [n for n in todas if not criba.motivo_descarte(n["titular"], n["enlace"])]
+    utiles = [
+        n for n in todas
+        if not criba.motivo_descarte(n["titular"], n["enlace"], n.get("categorias"))
+    ]
     claves = [criba.palabras_clave(n["titular"]) for n in utiles]
 
     etiquetadas = []

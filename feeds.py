@@ -116,6 +116,10 @@ async def leer(cliente: httpx.AsyncClient, fuente: Fuente, tope: int) -> list[di
             "resumen": _recortar(_limpiar(entrada.get("summary"))),
             "foto": _foto(entrada),
             "fecha": _fecha(entrada),
+            # Las categorias del item. La criba las usa para distinguir la
+            # publicidad de producto de Eurogamer ES, que por titular no se
+            # distingue de una noticia.
+            "categorias": [t.get("term") for t in entrada.get("tags", []) if t.get("term")],
         })
     return noticias
 

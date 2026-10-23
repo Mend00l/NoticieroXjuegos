@@ -120,6 +120,40 @@ def test_el_enlace_se_normaliza():
     assert limpio == criba.clave_enlace("http://vandal.net/noticia/abc?utm_source=rss#arriba")
 
 
+def test_tira_la_publicidad_por_la_categoria():
+    """Eurogamer ES etiqueta su publicidad con Tecnologia y solo con eso."""
+    assert criba.motivo_descarte(
+        "WALL-E compactó basura durante 700 años y este Roomba te libra de vaciar el polvo",
+        "https://www.eurogamer.es/wall-e-compacto-basura-durante-700-anos-y-este-roomba",
+        ["Tecnología"],
+    )
+
+
+def test_una_noticia_con_varias_categorias_pasa():
+    """Que Tecnologia este no basta: tiene que ser la unica."""
+    assert criba.motivo_descarte(
+        "Anunciado Serious Sam: The Third Encounter",
+        "https://www.eurogamer.es/anunciado-serious-sam-the-third-encounter",
+        ["Croteam", "Shooter", "PC", "Tecnología"],
+    ) is None
+
+
+def test_una_noticia_sin_categorias_pasa():
+    """La noticia del dia venia sin una sola categoria: la lista vacia no es señal."""
+    assert criba.motivo_descarte(
+        "Electronic Arts despedirá a 400 trabajadores; ha cerrado BioWare",
+        "https://www.eurogamer.es/electronic-arts-despedira-a-400-trabajadores",
+        [],
+    ) is None
+
+
+def test_tira_el_podcast_de_eurogamer():
+    assert criba.motivo_descarte(
+        "Nitro 1x09: El cierre de BioWare, el supuesto precio y fecha de la próxima Xbox",
+        "https://www.eurogamer.es/nitro-1x09-el-cierre-de-bioware-el-supuesto-precio",
+    )
+
+
 def test_quita_el_leer_mas_con_tilde():
     """Eurogamer ES lo escribe con tilde y se colaba dentro de la cita."""
     limpio = feeds._limpiar(
