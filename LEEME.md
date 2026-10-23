@@ -7,8 +7,20 @@ Telegram, una a una y sin repetirlas.
 
 1. Cada 15 minutos lee los 9 feeds a la vez.
 2. De cada noticia se queda con el titular, el resumen, la foto y el enlace.
-3. Pasa la criba: fuera guías, análisis, reviews, códigos diarios, cine y
-   televisión. Lo que tira queda apuntado con el motivo (`/descartes`).
+3. Pasa la criba: fuera guías, análisis, reviews, códigos diarios, cine,
+   televisión, podcasts y la publicidad de producto. Lo que tira queda
+   apuntado con el motivo (`/descartes`).
+
+   Filtra por tres sitios, y por ese orden de fiabilidad: **las categorías
+   del propio RSS** (Eurogamer ES etiqueta su publicidad con `Tecnología`
+   como única categoría), **la dirección** (la sección `/hobbycine`, o cómo
+   acaba el enlace en los medios que no tienen secciones) y, en último
+   lugar, **el titular**.
+
+   Antes de añadir un patrón para tapar la basura de un medio, **mira si
+   ese medio tiene un feed de solo noticias**. Eurogamer tenía uno y no
+   estaba a la vista: usarlo quitó de golpe sus análisis, sus avances y su
+   podcast.
 4. Mira si es la misma noticia que ya contó otro medio en las últimas 48 h.
 5. Lo que queda va a una cola y sale **una noticia cada 45 segundos**, para
    que una tanda de diez no caiga de golpe en el tema.
