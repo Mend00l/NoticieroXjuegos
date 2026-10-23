@@ -130,6 +130,14 @@ TIENDAS_FUERA = (
     re.compile(r"^free play days\b"),
     re.compile(r"\bdeal of the (day|week)\b"),
     re.compile(r"\bbest deals\b"),
+    # Los juegos gratis semanales de Epic y los que regala Prime. Se pide la
+    # tienda **y** la palabra de regalo, en cualquier orden: con la tienda
+    # sola se irian noticias de la tienda ("Epic Games Store llega a
+    # Android"), que si son noticia.
+    re.compile(r"\bepic games store\b.*\b(gratis|regala|regalo)\b"),
+    re.compile(r"\b(gratis|regala|regalo)\b.*\bepic games store\b"),
+    re.compile(r"\b(amazon prime|prime gaming)\b.*\b(gratis|regala|regalo)\b"),
+    re.compile(r"\b(gratis|regala|regalo)\b.*\b(amazon prime|prime gaming)\b"),
 )
 
 # Palabras que no distinguen una noticia de otra. Sin quitarlas, dos

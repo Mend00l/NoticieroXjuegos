@@ -162,6 +162,25 @@ def test_tira_las_promociones_de_tienda():
     )
 
 
+def test_tira_los_juegos_gratis_de_epic_y_prime():
+    assert criba.motivo_descarte(
+        "Ya disponibles gratis en Epic Games Store dos juegos de terror muy diferentes",
+        "https://vandal.elespanol.com/noticia/2026295000/ya-disponibles-gratis-en-epic/",
+    )
+    assert criba.motivo_descarte(
+        "Amazon regala hoy 2 nuevos juegos gratis de PC a todos los suscriptores de Amazon Prime",
+        "https://vandal.elespanol.com/noticia/2026295001/amazon-regala-hoy-2-juegos/",
+    )
+
+
+def test_una_noticia_de_la_tienda_sigue_pasando():
+    """Con el nombre de la tienda a secas se irian noticias de la tienda."""
+    assert criba.motivo_descarte(
+        "Epic Games Store llega a Android en Europa tras la ley de mercados digitales",
+        "https://vandal.elespanol.com/noticia/2026295002/epic-games-store-llega-a-android/",
+    ) is None
+
+
 def test_una_noticia_de_precios_no_es_promocion():
     """Lo que distingue la promocion no es hablar de precios ni de gratis."""
     noticias_buenas = [
