@@ -49,6 +49,14 @@ def test_tira_las_guias_tambien_en_singular():
     )
 
 
+def test_tira_las_guias_que_acaban_en_guide():
+    """Nintendo Everything tampoco tiene seccion: ahi el guion no es barra."""
+    assert criba.motivo_descarte(
+        "Spocco Points farming guide for Nintendo Switch Sports Resort",
+        "https://nintendoeverything.com/nintendo-switch-sports-resort-spocco-points-farming-guide/",
+    )
+
+
 def test_una_noticia_de_eurogamer_sigue_pasando():
     """La comprobacion de que los sufijos no se han llevado las noticias."""
     assert criba.motivo_descarte(

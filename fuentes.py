@@ -13,7 +13,7 @@ class Fuente:
     abrir_pagina: bool = False
 
 
-# Las ocho fuentes, con lo que dio cada una en 24 horas el 22-oct-2026.
+# Las nueve fuentes, con lo que dio cada una en 24 horas el 22-oct-2026.
 #
 # Estan los dos generalistas en español (Vandal, HobbyConsolas) porque son
 # los que llegan primero, y Eurogamer ES porque no hace clickbait. En ingles
@@ -34,7 +34,7 @@ class Fuente:
 FUENTES = [
     # Mete el articulo entero en description (hasta 8.700 caracteres) y
     # sirve la miniatura del video a 320x180 cuando el og:image esta a
-    # 1200x630: de las ocho, la que mas gana abriendo la pagina.
+    # 1200x630: de las nueve, la que mas gana abriendo la pagina.
     Fuente("Vandal", "es", "https://vandal.elespanol.com/rss/", abrir_pagina=True),
     Fuente("HobbyConsolas", "es", "https://www.hobbyconsolas.com/rss"),
     # Aqui iba MeriStation, que no tiene feed vivo (ver mas abajo). Se probo
@@ -47,6 +47,14 @@ FUENTES = [
     Fuente("Eurogamer", "en", "https://www.eurogamer.net/feed"),
     Fuente("Gematsu", "en", "https://www.gematsu.com/feed"),
     Fuente("Nintendo Life", "en", "https://www.nintendolife.com/feeds/latest"),
+    # Entra sabiendo lo que cuesta, medido el 23-oct-2026: de sus 9
+    # publicables, 2 eran noticias que Vandal y Eurogamer ES ya habian dado
+    # en español, y eso el detector de repetidas **no lo caza**, porque los
+    # titulares no comparten tres palabras entre idiomas. Se acepta porque
+    # las otras 7 no las da nadie mas: lanzamientos pequeños de Switch y las
+    # ventas de Famitsu. Apenas pisa a Nintendo Life, al contrario de lo que
+    # parecia.
+    Fuente("Nintendo Everything", "en", "https://nintendoeverything.com/feed"),
     Fuente("Pure Xbox", "en", "https://www.purexbox.com/feeds/latest"),
 ]
 

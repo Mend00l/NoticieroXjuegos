@@ -5,7 +5,7 @@ Telegram, una a una y sin repetirlas.
 
 ## Qué hace, por dentro
 
-1. Cada 15 minutos lee los 8 feeds a la vez.
+1. Cada 15 minutos lee los 9 feeds a la vez.
 2. De cada noticia se queda con el titular, el resumen, la foto y el enlace.
 3. Pasa la criba: fuera guías, análisis, reviews, códigos diarios, cine y
    televisión. Lo que tira queda apuntado con el motivo (`/descartes`).
@@ -17,7 +17,7 @@ Telegram, una a una y sin repetirlas.
 
 ## Las fuentes
 
-Ocho, y cada una está por un motivo. Están en `fuentes.py` con el volumen
+Nueve, y cada una está por un motivo. Están en `fuentes.py` con el volumen
 que dio cada una en 24 horas, medido el 22-oct-2026.
 
 | Fuente | Idioma | Noticias/24 h |
@@ -29,7 +29,12 @@ que dio cada una en 24 horas, medido el 22-oct-2026.
 | Eurogamer | en | 10 |
 | Gematsu | en | 15 |
 | Nintendo Life | en | 12 |
+| Nintendo Everything | en | 10 |
 | Pure Xbox | en | 10 |
+
+Ojo con HobbyConsolas: esas 35 son lo que publica en total, pero **casi la
+mitad de su feed es `/hobbycine`** y otras cuatro son publicidad de
+producto. Después de la criba se queda en unas 15.
 
 **Cuatro no se pueden usar**, comprobado una a una:
 
@@ -89,7 +94,7 @@ copy .env.example .env
 
 Rellenar el `.env` y `python main.py`.
 
-**El primer arranque no publica nada.** Los 8 feeds traen unas 100 noticias
+**El primer arranque no publica nada.** Los 9 feeds traen unas 100 noticias
 de los dos últimos días, y publicarlas sería estrenar el tema con cien
 mensajes viejos. La primera vez solo se anotan; a partir de ahí se publica
 lo que vaya saliendo.

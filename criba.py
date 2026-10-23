@@ -38,6 +38,12 @@ SUFIJOS_FUERA = (
     "-analisis",
     "-resena",
     "-impresiones",
+    # Nintendo Everything tampoco tiene seccion, y sus guias acaban asi:
+    # "...-spocco-points-farming-guide". El "/guide" de arriba no las pilla
+    # porque ahi no hay barra, sino guion.
+    "-guide",
+    "-guides",
+    "-walkthrough",
 )
 
 # Y el titular como segunda red, para lo que el medio publica en la seccion
