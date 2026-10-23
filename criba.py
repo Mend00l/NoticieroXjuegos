@@ -164,9 +164,14 @@ def parecido(unas: set[str], otras: set[str]) -> float:
 
 
 # Lo que ponen los medios al final del resumen y no es resumen.
+#
+# Ojo con las tildes: aqui se compara el texto **tal cual**, no normalizado,
+# porque el resumen se publica. Eurogamer ES escribe "Leer más" con tilde y
+# el patron sin ella no la pillaba, asi que salia dentro de la cita en cada
+# mensaje suyo. De ahi la clase [aá].
 COLETILLAS = re.compile(
-    r"(leer mas|read more|continue reading|the post .* appeared first on .*|"
-    r"seguir leyendo|ver mas)\s*\.?\s*$",
+    r"(leer m[aá]s|ver m[aá]s|read more|continue reading|"
+    r"the post .* appeared first on .*|seguir leyendo)\s*\.?\s*$",
     re.IGNORECASE,
 )
 

@@ -1,5 +1,6 @@
 """La criba y el parecido, que corren sin base de datos."""
 import criba
+import feeds
 import publicar
 
 
@@ -117,6 +118,54 @@ def test_el_enlace_se_normaliza():
     """El mismo articulo con y sin campaña es el mismo articulo."""
     limpio = criba.clave_enlace("https://www.vandal.net/noticia/abc/")
     assert limpio == criba.clave_enlace("http://vandal.net/noticia/abc?utm_source=rss#arriba")
+
+
+def test_quita_el_leer_mas_con_tilde():
+    """Eurogamer ES lo escribe con tilde y se colaba dentro de la cita."""
+    limpio = feeds._limpiar(
+        "<p>Digital Sun ha anunciado un retraso indefinido de los playtest. Leer más</p>"
+    )
+    assert limpio.endswith("playtest.")
+    assert "Leer" not in limpio
+
+
+def test_el_resumen_va_en_una_cita():
+    texto = publicar.montar({
+        "titular": "Shigeru Miyamoto explains why AI won't make creativity obsolete",
+        "resumen": "Mario and Zelda creator argues that the rise of AI could make creators even more important",
+        "fuente": "VGC",
+        "enlace": "https://www.videogameschronicle.com/news/miyamoto-ai",
+    })
+    assert "<blockquote>Mario and Zelda creator" in texto
+    assert "important</blockquote>" in texto
+    # El titular y la fuente quedan fuera de la cita.
+    assert texto.startswith("<b>Shigeru")
+    assert texto.endswith("VGC</a>")
+
+
+def test_sin_cita_el_mensaje_es_el_de_antes():
+    """El respaldo por si Telegram no acepta la cita en el pie de una foto."""
+    noticia = {
+        "titular": "Un titular",
+        "resumen": "Un resumen",
+        "fuente": "VGC",
+        "enlace": "https://www.videogameschronicle.com/news/x",
+    }
+    assert "blockquote" not in publicar.montar(noticia, cita=False)
+    assert "Un resumen" in publicar.montar(noticia, cita=False)
+
+
+def test_el_mensaje_con_cita_tambien_cabe_en_el_pie():
+    """Las etiquetas de la cita cuentan para el limite de 1024."""
+    texto = publicar.montar({
+        "titular": "Un titular normal de una noticia de videojuegos",
+        "resumen": "palabra " * 400,
+        "fuente": "Vandal",
+        "enlace": "https://vandal.elespanol.com/noticia/abc",
+    })
+    assert len(texto) <= publicar.TOPE_PIE
+    assert texto.count("<blockquote>") == 1
+    assert texto.count("</blockquote>") == 1
 
 
 def test_el_mensaje_cabe_en_el_pie_de_foto():
