@@ -5,7 +5,7 @@ Telegram, una a una y sin repetirlas.
 
 ## Qué hace, por dentro
 
-1. Cada 15 minutos lee los 9 feeds a la vez.
+1. Cada 15 minutos lee los 8 feeds a la vez.
 2. De cada noticia se queda con el titular, el resumen, la foto y el enlace.
 3. Pasa la criba: fuera guías, análisis, reviews, códigos diarios, cine y
    televisión. Lo que tira queda apuntado con el motivo (`/descartes`).
@@ -17,7 +17,7 @@ Telegram, una a una y sin repetirlas.
 
 ## Las fuentes
 
-Nueve, y cada una está por un motivo. Están en `fuentes.py` con el volumen
+Ocho, y cada una está por un motivo. Están en `fuentes.py` con el volumen
 que dio cada una en 24 horas, medido el 22-oct-2026.
 
 | Fuente | Idioma | Noticias/24 h |
@@ -25,7 +25,6 @@ que dio cada una en 24 horas, medido el 22-oct-2026.
 | Vandal | es | 30 |
 | HobbyConsolas | es | 35 |
 | Eurogamer ES | es | 9 |
-| LaPS4 | es | 4 |
 | VGC | en | 10 |
 | Eurogamer | en | 10 |
 | Gematsu | en | 15 |
@@ -41,8 +40,9 @@ que dio cada una en 24 horas, medido el 22-oct-2026.
 - **SomosXbox**: 403 incluso con `curl_cffi` imitando a Chrome.
 - **GuiltyBit**: el dominio ya no resuelve.
 
-Fuera a propósito: **Nintenderos** (no la quieres, así que lo de Nintendo
-sale de Vandal y HobbyConsolas en español y de Nintendo Life en inglés),
+Fuera a propósito: **Nintenderos y LaPS4** (no las quieres, así que lo de
+Nintendo y lo de PlayStation sale de los generalistas en español y, en
+inglés, de Nintendo Life y Pure Xbox),
 Areajugones y VidaExtra (mezclan cine y televisión),
 Polygon y Destructoid (viven de las guías), PC Gamer (resúmenes de 30
 caracteres), IGN España (ofertas y series, y casi todo lo suyo ya lo cuenta
@@ -89,7 +89,7 @@ copy .env.example .env
 
 Rellenar el `.env` y `python main.py`.
 
-**El primer arranque no publica nada.** Los 9 feeds traen unas 100 noticias
+**El primer arranque no publica nada.** Los 8 feeds traen unas 100 noticias
 de los dos últimos días, y publicarlas sería estrenar el tema con cien
 mensajes viejos. La primera vez solo se anotan; a partir de ahí se publica
 lo que vaya saliendo.

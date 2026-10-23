@@ -26,7 +26,7 @@ ZONA = "Europe/Madrid"
 
 # APScheduler descarta de fabrica una cita que llega con un segundo de
 # retraso, y no avisa: para el no ha fallado, no ha llegado a correr. Este
-# bot se pasa el rato esperando a nueve servidores, asi que un sondeo puede
+# bot se pasa el rato esperando a ocho servidores, asi que un sondeo puede
 # tocar con el bucle ocupado. Con una hora de cortesia se ejecuta igual.
 GRACIA = {"misfire_grace_time": 3600}
 

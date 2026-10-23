@@ -10,6 +10,53 @@ def test_tira_las_guias_por_la_ruta():
     )
 
 
+def test_tira_el_cine_de_hobbyconsolas():
+    """Casi la mitad de su feed es /hobbycine. Esta se colo en el tema."""
+    assert criba.motivo_descarte(
+        "Crítica de Leones en invierno, el violento thriller de Albert Pintó",
+        "https://www.hobbyconsolas.com/hobbycine/critica-leones-invierno-violento-thriller_7052389_0.html",
+    )
+
+
+def test_tira_la_publicidad_de_hobbyconsolas():
+    assert criba.motivo_descarte(
+        "Regalo perfecto para fans de El Señor de los Anillos: sujetalibros",
+        "https://www.hobbyconsolas.com/recomendados/regalo-perfecto-fans-senor-anillos_7051000_0.html",
+    )
+
+
+def test_tira_los_analisis_sin_seccion_en_la_direccion():
+    """Eurogamer no tiene seccion: el titular entero es la ruta."""
+    assert criba.motivo_descarte(
+        "Nintendo Switch Sports Resort review",
+        "https://www.eurogamer.net/nintendo-switch-sports-resort-review",
+    )
+    assert criba.motivo_descarte(
+        "After a few hours with Yakuza studio's soulful Stranger Than Heaven",
+        "https://www.eurogamer.net/stranger-than-heaven-preview",
+    )
+    assert criba.motivo_descarte(
+        "Mini reseña de Penguin Colony - Horror cósmico y colonialismo",
+        "https://www.eurogamer.es/penguin-colony-analisis-review",
+    )
+
+
+def test_tira_las_guias_tambien_en_singular():
+    """VGC usa /guide, no /guides."""
+    assert criba.motivo_descarte(
+        "Nintendo Switch Sports Resort: Archery Secret Target locations",
+        "https://www.videogameschronicle.com/guide/nintendo-switch-sports-resort-archery/",
+    )
+
+
+def test_una_noticia_de_eurogamer_sigue_pasando():
+    """La comprobacion de que los sufijos no se han llevado las noticias."""
+    assert criba.motivo_descarte(
+        "BioWare is closing down and Mass Effect 5 is cancelled",
+        "https://www.eurogamer.net/bioware-closing-down-mass-effect-5-cancelled",
+    ) is None
+
+
 def test_tira_los_analisis_por_el_titular():
     assert criba.motivo_descarte(
         "Análisis de Nintendo Switch Sports Resort",

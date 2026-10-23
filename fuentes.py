@@ -13,19 +13,19 @@ class Fuente:
     abrir_pagina: bool = False
 
 
-# Las nueve fuentes, con lo que dio cada una en 24 horas el 22-oct-2026.
+# Las ocho fuentes, con lo que dio cada una en 24 horas el 22-oct-2026.
 #
 # Estan los dos generalistas en español (Vandal, HobbyConsolas) porque son
-# los que llegan primero, y ademas LaPS4 porque los generalistas despachan
-# PlayStation en un parrafo. En ingles solo lo que no se solapa: VGC da las
-# exclusivas de industria y Gematsu cubre Japon, que no cubre nadie mas.
+# los que llegan primero, y Eurogamer ES porque no hace clickbait. En ingles
+# solo lo que no se solapa: VGC da las exclusivas de industria y Gematsu
+# cubre Japon, que no cubre nadie mas.
 #
-# Fuera a proposito, y no por olvido: Nintenderos no la quiere Edu (asi que
-# lo de Nintendo en español sale de Vandal y HobbyConsolas, y en ingles de
-# Nintendo Life); Areajugones y VidaExtra mezclan cine y television en el
-# mismo feed; Polygon y Destructoid viven de las guias; PC Gamer sirve
-# resumenes de treinta caracteres, que no dan para un mensaje; PS Blog y
-# Xbox Wire son la promocion de su propia tienda.
+# Fuera a proposito, y no por olvido: **Nintenderos y LaPS4 no las quiere
+# Edu**, asi que lo de Nintendo y lo de PlayStation sale de los generalistas
+# y, en ingles, de Nintendo Life y Pure Xbox; Areajugones y VidaExtra
+# mezclan cine y television en el mismo feed; Polygon y Destructoid viven de
+# las guias; PC Gamer sirve resumenes de treinta caracteres, que no dan para
+# un mensaje; PS Blog y Xbox Wire son la promocion de su propia tienda.
 #
 # Y cuatro que no se pueden usar aunque se quiera: 3DJuegos se quedo sin RSS
 # (404 en todas las rutas y su HTML no declara feed), SomosXbox responde 403
@@ -34,7 +34,7 @@ class Fuente:
 FUENTES = [
     # Mete el articulo entero en description (hasta 8.700 caracteres) y
     # sirve la miniatura del video a 320x180 cuando el og:image esta a
-    # 1200x630: de las nueve, la que mas gana abriendo la pagina.
+    # 1200x630: de las ocho, la que mas gana abriendo la pagina.
     Fuente("Vandal", "es", "https://vandal.elespanol.com/rss/", abrir_pagina=True),
     Fuente("HobbyConsolas", "es", "https://www.hobbyconsolas.com/rss"),
     # Aqui iba MeriStation, que no tiene feed vivo (ver mas abajo). Se probo
@@ -43,7 +43,6 @@ FUENTES = [
     # y subio las repetidas de 15 a 23, o sea que casi todo lo suyo ya lo
     # contaba otro. Para volver a meterla basta una linea aqui.
     Fuente("Eurogamer ES", "es", "https://www.eurogamer.es/feed"),
-    Fuente("LaPS4", "es", "https://www.laps4.com/feed/"),
     Fuente("VGC", "en", "https://www.videogameschronicle.com/feed/"),
     Fuente("Eurogamer", "en", "https://www.eurogamer.net/feed"),
     Fuente("Gematsu", "en", "https://www.gematsu.com/feed"),

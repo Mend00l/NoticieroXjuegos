@@ -15,10 +15,29 @@ RUTAS_FUERA = (
     "/television/",
     "/peliculas/",
     "/review",
-    "/guides/",
+    "/guide",
     "/how-to",
     "/walkthrough",
     "/features/",
+    # Casi la mitad del feed de HobbyConsolas es esto: 18 de 40 el 23-oct-2026.
+    "/hobbycine",
+    "/hobbyseries",
+    # Y /recomendados son anuncios de producto, no noticias ("Regalo
+    # perfecto para fans de El Señor de los Anillos: sujetalibros...").
+    "/recomendados",
+)
+
+# Eurogamer, en español y en ingles, **no tiene seccion en la direccion**:
+# el titular entero es la ruta, asi que no hay carpeta que filtrar. Sus
+# analisis y avances se reconocen por como acaba la direccion. Sin esto se
+# colaban "Nintendo Switch Sports Resort review" y "Mini reseña de Penguin
+# Colony", que el titular tampoco delata.
+SUFIJOS_FUERA = (
+    "-review",
+    "-preview",
+    "-analisis",
+    "-resena",
+    "-impresiones",
 )
 
 # Y el titular como segunda red, para lo que el medio publica en la seccion
@@ -32,6 +51,11 @@ TITULOS_FUERA = (
     re.compile(r"\bcodigos (de|para|canjeables)\b"),
     re.compile(r"^analisis\b"),
     re.compile(r"\banalisis de\b"),
+    re.compile(r"^critica\b"),
+    re.compile(r"\bcritica de\b"),
+    re.compile(r"\bresena de\b"),
+    re.compile(r"^mini resena\b"),
+    re.compile(r"^impresiones de\b"),
     re.compile(r"\bdonde (encontrar|esta|estan)\b"),
     re.compile(r"\b(los|las) \d+ mejores\b"),
     re.compile(r"^(guide|walkthrough)\b"),
@@ -41,6 +65,7 @@ TITULOS_FUERA = (
     re.compile(r"\b(codes|redeem codes) (for|list)\b"),
     re.compile(r"^review\b"),
     re.compile(r"\breview:\b"),
+    re.compile(r"\b(review|preview|roundup)$"),
     re.compile(r"\bexplained\b"),
 )
 
@@ -159,10 +184,13 @@ def clave_enlace(enlace: str) -> str:
 
 def motivo_descarte(titular: str, enlace: str) -> str | None:
     """Por que no se publica esto. None si si se publica."""
-    ruta = urlsplit(enlace).path.lower()
+    ruta = urlsplit(enlace).path.lower().rstrip("/")
     for trozo in RUTAS_FUERA:
         if trozo in ruta:
             return f"ruta {trozo}"
+    for sufijo in SUFIJOS_FUERA:
+        if ruta.endswith(sufijo):
+            return f"direccion acaba en {sufijo}"
 
     plano = normalizar(titular)
     for patron in TITULOS_FUERA:
