@@ -13,4 +13,12 @@ feedparser==6.0.11
 # El reloj del sondeo.
 apscheduler==3.10.4
 # Las zonas horarias, que el contenedor de Railway corre en UTC.
-tzdata==2024.1
+#
+# **Suelta a proposito, y es la unica de este fichero.** Ahi no hay
+# codigo: son las reglas del cambio de hora de cada pais, y cambian. Las
+# demas se fijan porque tienen API y un salto grande cambia como se
+# llaman; esta no tiene, y lo que quieres es la ultima.
+#
+# Estuvo clavada en la `2024.1` hasta el 25-oct-2026. Congelarla no da
+# ningun error: el bot sale a su hora de siempre, una hora corrida.
+tzdata
